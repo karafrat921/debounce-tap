@@ -1,5 +1,3 @@
-library debounce_tap;
-
 import 'package:flutter/material.dart';
 
 class Debounce {
@@ -93,10 +91,7 @@ class Debounce {
       originalOnTap: onTap,
       onTapBlocked: onTapBlocked,
       builder: (context, debouncedOnTap) {
-        return TextButton(
-          onPressed: debouncedOnTap,
-          child: child,
-        );
+        return TextButton(onPressed: debouncedOnTap, child: child);
       },
     );
   }
@@ -113,7 +108,6 @@ class _Debounced extends StatefulWidget {
     required this.originalOnTap,
     required this.debounceDuration,
     this.onTapBlocked,
-    super.key,
   });
 
   @override
@@ -121,17 +115,19 @@ class _Debounced extends StatefulWidget {
 }
 
 class _DebouncedState extends State<_Debounced> {
-  DateTime? _lastTapTime;
+  int? _lastTapTime;
 
   void _debouncedTap() {
-    final now = DateTime.now();
-    if (_lastTapTime == null || now.difference(_lastTapTime!) > widget.debounceDuration) {
+    final now = DateTime.now().millisecondsSinceEpoch;
+    if (_lastTapTime == null ||
+        (now - _lastTapTime!) >= widget.debounceDuration.inMilliseconds) {
       _lastTapTime = now;
       widget.originalOnTap();
     } else {
-      final remaining = widget.debounceDuration - now.difference(_lastTapTime!);
+      final remaining =
+          widget.debounceDuration.inMilliseconds - (now - _lastTapTime!);
       if (widget.onTapBlocked != null) {
-        widget.onTapBlocked!(remaining.inMilliseconds);
+        widget.onTapBlocked!(remaining);
       }
     }
   }
