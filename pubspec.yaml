@@ -1,7 +1,8 @@
 name: debounce_tap
-description: "A new Flutter package project."
-version: 0.0.1
-homepage:
+description: A Flutter package to debounce taps on InkWell, GestureDetector, IconButton and more.
+version: 0.1.0
+homepage: https://github.com/karafrat921/debounce-tap
+repository: https://github.com/karafrat921/debounce-tap
 
 environment:
   sdk: ^3.8.1
